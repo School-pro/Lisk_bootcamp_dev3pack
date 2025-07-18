@@ -13,7 +13,7 @@ pragma solidity ^0.8.0;
 // Add a view function to fetch user info
 // Track registration timestamp using uint
 
-contract Dev3Pack {
+contract UserProfile {
     struct User {
         string name;
         uint age;
