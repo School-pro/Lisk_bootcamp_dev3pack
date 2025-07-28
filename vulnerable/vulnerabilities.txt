@@ -1,0 +1,19 @@
+Vulnerabilities and Fixes
+Unauthorized Withdrawals
+Fix: Added onlyOwner modifier to restrict withdrawals to the contract owner.
+
+Missing Semicolon in Constructor
+Fix: Corrected the constructor syntax by adding the missing semicolon.
+
+Allows Zero-Value Deposits
+Fix: Added require(msg.value > 0) to prevent depositing 0 Ether.
+
+No Event Logging
+Fix: Added Deposited and Withdrawn events for better transaction tracking.
+
+No Function to View Contract Balance
+Fix: Added getBalance() public view function to check contract balance.
+
+Potential Reentrancy Risk in Future
+Fix: Used transfer() (gas-limited) and simple logic to prevent reentrancy.
+
