@@ -1,30 +1,25 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.0;
 
 import "./VaultBase.sol";
 
-/**
- * @title VaultManager
-  * Implements deposit and withdrawal logic.
-   */
-   contract VaultManager is VaultBase {
-        function deposit() external payable {
-                    require(msg.value > 0, "Cannot deposit 0 ETH");
-                            balances[msg.sender] = balances[msg.sender].add(msg.value);
-                                    emit Deposited(msg.sender, msg.value);
-        }
+contract VaultManager is VaultBase {
 
-            function withdraw(uint256 amount) external {
-                        require(amount > 0, "Withdraw amount must be greater than 0");
-                                require(balances[msg.sender] >= amount, "Insufficient balance");
+    // Deposit Ether into the vault
+    function deposit() external payable {
+        require(msg.value > 0, "Deposit must be greater than zero");
+        balances[msg.sender] = balances[msg.sender].add(msg.value);
+        emit Deposited(msg.sender, msg.value);
+    }
 
-                                        balances[msg.sender] = balances[msg.sender].sub(amount);
-                                                (bool sent, ) = payable(msg.sender).call{value: amount}("");
-                                                        require(sent, "Failed to send Ether");
+    // Withdraw Ether from the vault
+    function withdraw(uint256 amount) external {
+        require(amount > 0, "Withdraw amount must be greater than zero");
+        require(balances[msg.sender] >= amount, "Insufficient balance");
 
-                                                                emit Withdrawn(msg.sender, amount);
-            }
-   }
-            }
-        }
-   }
+        balances[msg.sender] = balances[msg.sender].sub(amount);
+        payable(msg.sender).transfer(amount);
+
+        emit Withdrawn(msg.sender, amount);
+    }
+}
