@@ -13,14 +13,17 @@ pragma solidity ^0.8.0;
 // Add a view function to fetch user info
 // Track registration timestamp using uint
 
-contract Dev3Pack {
+contract UserProfile {
+    // Define the User struct
     struct User {
         string name;
         uint age;
         string email;
         bool exists;
+        uint registeredAt;
     }
 
+    
     mapping(address => User) private users;
 
     // Function to register a new user
@@ -31,7 +34,8 @@ contract Dev3Pack {
             name: _name,
             age: _age,
             email: _email,
-            exists: true
+            exists: true,
+            registeredAt: block.timestamp
         });
     }
 
@@ -45,10 +49,10 @@ contract Dev3Pack {
     }
 
     // Function to get user profile
-    function getProfile() public view returns (string memory, uint, string memory) {
+    function getProfile() public view returns (string memory, uint, string memory, uint) {
         require(users[msg.sender].exists, "User not registered");
 
         User memory user = users[msg.sender];
-        return (user.name, user.age, user.email);
+        return (user.name, user.age, user.email, user.registeredAt);
     }
 }
